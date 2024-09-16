@@ -3,13 +3,13 @@ from setuptools import setup
 APP = ["main.py"]
 DATA_FILES = []
 OPTIONS = {
-    "argv_emulation": True,
+    "argv_emulation": False,
     "plist": {
         "LSUIElement": True,
     },
     "packages": ["rumps"],
-    "includes": ["ctypes", "libffi"],
-    "packages": ["ctypes"],
+    # "includes": ["ctypes", "libffi"],
+    # "packages": ["ctypes"],
 }
 
 setup(
