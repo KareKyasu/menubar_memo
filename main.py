@@ -12,7 +12,7 @@ class MemoApp(rumps.App):
         # self.icon = "icon.png"
 
     @rumps.clicked("Title")
-    def title(self, _):
+    def title_edit(self, _):
         # テキスト入力用のウィンドウを作成
         window = rumps.Window(
             title="Enter memo",
