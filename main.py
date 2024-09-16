@@ -9,9 +9,10 @@ class MemoApp(rumps.App):
     def __init__(self):
         super(MemoApp, self).__init__("Memo App")
         self.menu = ["Title"]
+        # self.icon = "icon.png"
 
     @rumps.clicked("Title")
-    def c(self, _):
+    def title(self, _):
         # テキスト入力用のウィンドウを作成
         window = rumps.Window(
             title="Enter memo",
@@ -30,6 +31,10 @@ class MemoApp(rumps.App):
             self.title = response.text
         else:
             print("User canceled the input.")
+
+    # @rumps.clicked("Clear")
+    # def clear(self, _):
+    #     self.title = ""
 
 
 if __name__ == "__main__":
