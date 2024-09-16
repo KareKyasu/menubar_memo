@@ -10,7 +10,7 @@ activateする
 その状態で
 ```pip install setuptools==70.3.0 rumps```
 し、
-```python setup.py py2app```
+```python setup.py py2app --resources icon.png```
 でビルド可能。
 
 dist配下にアプリが作成される。

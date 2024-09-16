@@ -8,8 +8,8 @@ import rumps
 class MemoApp(rumps.App):
     def __init__(self):
         super(MemoApp, self).__init__("Memo App")
-        self.menu = ["Title"]
-        # self.icon = "icon.png"
+        self.menu = ["Title", "Clear"]
+        self.icon = "icon.png"
 
     @rumps.clicked("Title")
     def title_edit(self, _):
@@ -32,9 +32,9 @@ class MemoApp(rumps.App):
         else:
             print("User canceled the input.")
 
-    # @rumps.clicked("Clear")
-    # def clear(self, _):
-    #     self.title = ""
+    @rumps.clicked("Clear")
+    def clear_title(self, _):
+        self.title = ""
 
 
 if __name__ == "__main__":
