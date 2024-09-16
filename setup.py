@@ -8,8 +8,6 @@ OPTIONS = {
         "LSUIElement": True,
     },
     "packages": ["rumps"],
-    # "includes": ["ctypes", "libffi"],
-    # "packages": ["ctypes"],
 }
 
 setup(
