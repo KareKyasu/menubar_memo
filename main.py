@@ -1,15 +1,12 @@
 import rumps
 
-# デバッグモードを有効化
-# rumps.debug_mode(True)
-
 
 # メニューアイテムをクリックしたときの動作
 class MemoApp(rumps.App):
     def __init__(self):
         super(MemoApp, self).__init__("Memo App")
         self.menu = ["Title", "Clear"]
-        self.icon = "icon.png"
+        self.icon = "shadow.png"
 
     @rumps.clicked("Title")
     def title_edit(self, _):
