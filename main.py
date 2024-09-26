@@ -1,3 +1,5 @@
+import sys
+
 import rumps
 
 from cache import load_memo, save_memo
@@ -5,10 +7,10 @@ from cache import load_memo, save_memo
 
 # メニューアイテムをクリックしたときの動作
 class MemoApp(rumps.App):
-    def __init__(self):
+    def __init__(self, icon_path):
         super(MemoApp, self).__init__("Memo App")
         self.menu = ["Title", "Clear"]
-        self.icon = "shadow.png"
+        self.icon = icon_path
         self.title = load_memo()
 
     @rumps.clicked("Title")
@@ -40,5 +42,13 @@ class MemoApp(rumps.App):
 
 
 if __name__ == "__main__":
+    if getattr(sys, "frozen", False):
+        # アプリ実行
+        memo_app = MemoApp("shadow.png")
+        print("by py2app")
+    else:
+        memo_app = MemoApp("resources/shadow.png")
+        # コマンド実行
+        print("by python command")
 
-    MemoApp().run()
+    memo_app.run()
