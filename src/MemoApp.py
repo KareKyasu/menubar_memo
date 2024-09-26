@@ -1,11 +1,8 @@
-import sys
-
 import rumps
 
 from cache import load_memo, save_memo
 
 
-# メニューアイテムをクリックしたときの動作
 class MemoApp(rumps.App):
     def __init__(self, icon_path):
         super(MemoApp, self).__init__("Memo App")
@@ -29,7 +26,6 @@ class MemoApp(rumps.App):
 
         # ユーザーの入力をチェックして表示
         if response.clicked:
-            # print("User entered:", response.text)
             self.title = response.text
             save_memo(self.title)
         else:
@@ -39,16 +35,3 @@ class MemoApp(rumps.App):
     def clear_title(self, _):
         self.title = ""
         save_memo("")
-
-
-if __name__ == "__main__":
-    if getattr(sys, "frozen", False):
-        # アプリ実行
-        memo_app = MemoApp("shadow.png")
-        print("by py2app")
-    else:
-        memo_app = MemoApp("resources/shadow.png")
-        # コマンド実行
-        print("by python command")
-
-    memo_app.run()

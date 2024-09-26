@@ -9,8 +9,12 @@ activateする
 
 その状態で
 ```pip install setuptools==70.3.0 rumps```
-し、
-```python setup.py py2app --resources resources/shadow.png  --iconfile icon_images/icon.icns```
+
+## デバッグ&ビルド
+```python src/main.py```
+でデバッグ可能。
+
+```python src/setup.py py2app --resources resources/shadow.png  --iconfile icon_images/icon.icns```
 でビルド可能。
 
 dist配下にアプリが作成される。
@@ -31,3 +35,7 @@ dist配下にアプリが作成される。
 で複数ファイル作成
 
 ```./../create_icns.sh --create-icns ```でicnsファイル作成
+
+
+ポモロード
+https://zenn.dev/yakumo/articles/4c7ad15dc36eaf
