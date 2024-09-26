@@ -1,6 +1,6 @@
 from setuptools import setup
 
-APP = ["main.py"]
+APP = ["src/main.py"]
 DATA_FILES = []
 OPTIONS = {
     "argv_emulation": False,
