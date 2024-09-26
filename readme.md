@@ -1,6 +1,10 @@
-# 環境構築
+# MenubarMemo
+Macのメニューバーにメモを表示するアプリ。
+pythonのrumpsで作成している。
 
-venvで仮想環境を作成します。
+## 環境構築
+
+venvで仮想環境を作成します。py2appでスタンドアロンアプリ化するにはこの方法が良い。
 ```python -m venv --prompt menubar .venv```
 
 activateする
@@ -11,15 +15,11 @@ activateする
 ```pip install setuptools==70.3.0 rumps```
 
 ## デバッグ&ビルド
-```python src/main.py```
-でデバッグ可能。
+- `.vscode/tasks.json`の`python main.py`タスクでpython実行可能。
+- また、`.vscode/tasks.json`の`Build py2app`タスクでビルド可能。  
+  dist配下にアプリが作成される。
 
-```python src/setup.py py2app --resources resources/shadow.png  --iconfile icon_images/icon.icns```
-でビルド可能。
-
-dist配下にアプリが作成される。
-
-
+## 補足
 
 - setuptoolsは70.3.0でないとエラーが出る
   - https://github.com/ronaldoussoren/py2app/issues/531#issuecomment-2287707966
@@ -36,6 +36,6 @@ dist配下にアプリが作成される。
 
 ```./../create_icns.sh --create-icns ```でicnsファイル作成
 
-
-ポモロード
-https://zenn.dev/yakumo/articles/4c7ad15dc36eaf
+## メモ
+- ポモロード  
+  https://zenn.dev/yakumo/articles/4c7ad15dc36eaf

@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "label": "python main.py",
+      "type": "shell",
+      "command": "python src/main.py"
+    },
+    {
+      "label": "Build py2app",
+      "type": "shell",
+      "command": "python src/setup.py py2app --resources resources/shadow.png  --iconfile icon_images/icon.icns"
+    },
+    {
+      "label": "open finder",
+      "type": "shell",
+      "command": "open ."
+    },
+    {
+      "label": "Run APP",
+      "type": "shell",
+      "command": "./dist/MenubarMemo.app/Contents/MacOS/MenubarMemo"
+    }
+  ]
+}
