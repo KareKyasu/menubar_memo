@@ -39,3 +39,6 @@ activateする
 ## メモ
 - ポモロード  
   https://zenn.dev/yakumo/articles/4c7ad15dc36eaf
+
+- 表示取得
+  https://github.com/jaredks/rumps/issues/198#issuecomment-1475437945

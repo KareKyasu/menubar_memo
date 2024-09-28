@@ -1,14 +1,64 @@
+import re
+
 import rumps
+from Cocoa import NSWindowOcclusionStateVisible
+from PyObjCTools import AppHelper
 
 from cache import load_memo, save_memo
+
+
+def validate_memo(user_enter_memo: str) -> str:
+    """メモ内容をバリデーションし、変換する
+
+    Args:
+        user_enter_memo (str): ユーザーが入力したメモ
+
+    Returns:
+        str: バリデーション、変換後のメモ
+    """
+
+    # 改行除去
+    user_enter_memo = user_enter_memo.replace("\n", "")
+
+    # サイズ制限
+    if len(user_enter_memo) > 1000:
+        user_enter_memo = user_enter_memo[:1000]
+    return user_enter_memo
 
 
 class MemoApp(rumps.App):
     def __init__(self, icon_path):
         super(MemoApp, self).__init__("Memo App")
+
+        # self.timer = rumps.Timer(self.check_visibility, 5)
+        self.timer = rumps.Timer(self.check_visibility, 2)
+        self.check_flg = False
+        self.timer.start()
+
         self.menu = ["Title", "Clear"]
         self.icon = icon_path
-        self.title = load_memo()
+        self.title = validate_memo(load_memo())
+
+    def check_visibility(self, sender):
+        """メニューバーアイテムが隠れているかどうかを確認する"""
+        window = self._nsapp.nsstatusitem._window()
+
+        print("timer")
+        print(window.occlusionState())
+        print(NSWindowOcclusionStateVisible)
+        if window.occlusionState() & NSWindowOcclusionStateVisible:
+            print("メニューバーは表示されています")
+        else:
+            print("メニューバーは隠れています")
+            # 必要に応じてタイトルを短縮するなどの処理
+            self.title = ""  # タイトルを短縮
+
+        # 2回チェックしたらタイマーを止める
+        if self.check_flg == True:
+            self.timer.stop()
+            self.check_flg = False
+        else:
+            self.check_flg = True
 
     @rumps.clicked("Title")
     def title_edit(self, _):
@@ -19,17 +69,22 @@ class MemoApp(rumps.App):
             ok="OK",
             cancel="Cancel",
             dimensions=(200, 24),
-        )  # テキスト入力フィールドのサイズを指定
+        )
 
         # ウィンドウを表示してユーザーの入力を取得
         response = window.run()
 
-        # ユーザーの入力をチェックして表示
         if response.clicked:
-            self.title = response.text
+            # OKボタンやEnterキーが押された場合
+            self.title = validate_memo(response.text)
             save_memo(self.title)
         else:
+            # キャンセルボタンが押された場合
             print("User canceled the input.")
+
+        # check_visibility
+        self.check_flg = False
+        self.timer.start()
 
     @rumps.clicked("Clear")
     def clear_title(self, _):
