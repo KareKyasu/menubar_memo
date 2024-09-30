@@ -3,6 +3,8 @@ from Cocoa import NSWindowOcclusionStateVisible
 
 from cache import load_memo, save_memo
 
+MEMO_MAX_LENGTH = 1000
+
 
 def validate_memo(user_enter_memo: str) -> str:
     """メモ内容をバリデーションし、変換する
@@ -14,13 +16,8 @@ def validate_memo(user_enter_memo: str) -> str:
         str: バリデーション、変換後のメモ
     """
 
-    # 改行除去
-    user_enter_memo = user_enter_memo.replace("\n", "")
-
-    # サイズ制限
-    if len(user_enter_memo) > 1000:
-        user_enter_memo = user_enter_memo[:1000]
-    return user_enter_memo
+    # 改行除去とサイズ制限
+    return user_enter_memo.replace("\n", "")[:MEMO_MAX_LENGTH]
 
 
 class MemoApp(rumps.App):
