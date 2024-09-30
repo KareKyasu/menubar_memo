@@ -47,7 +47,7 @@ class MemoApp(rumps.App):
 
         # 1回目のチェックは表示が更新される前なので、
         # 2回チェックしたらタイマーを止める
-        if self.check_flg == True:
+        if self.check_flg:
             self.timer.stop()
             self.check_flg = False
         else:
