@@ -1,9 +1,12 @@
 # MenubarMemo
-Macのメニューバーにメモを表示するアプリ。
-pythonのrumpsで作成している。
+Macのメニューバーにメモを表示するアプリです。
+
+https://github.com/user-attachments/assets/9f93513f-0690-4081-b4cb-2ff525f810ee
+
 
 ## 環境構築
 
+pythonのrumpsで作成している。
 venvで仮想環境を作成します。py2appでスタンドアロンアプリ化するにはこの方法が良い。
 ```python -m venv --prompt menubar .venv```
 
