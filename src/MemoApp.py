@@ -1,10 +1,9 @@
-import re
-
 import rumps
 from Cocoa import NSWindowOcclusionStateVisible
-from PyObjCTools import AppHelper
 
 from cache import load_memo, save_memo
+
+MEMO_MAX_LENGTH = 1000
 
 
 def validate_memo(user_enter_memo: str) -> str:
@@ -17,20 +16,14 @@ def validate_memo(user_enter_memo: str) -> str:
         str: バリデーション、変換後のメモ
     """
 
-    # 改行除去
-    user_enter_memo = user_enter_memo.replace("\n", "")
-
-    # サイズ制限
-    if len(user_enter_memo) > 1000:
-        user_enter_memo = user_enter_memo[:1000]
-    return user_enter_memo
+    # 改行除去とサイズ制限
+    return user_enter_memo.replace("\n", "")[:MEMO_MAX_LENGTH]
 
 
 class MemoApp(rumps.App):
     def __init__(self, icon_path):
         super(MemoApp, self).__init__("Memo App")
 
-        # self.timer = rumps.Timer(self.check_visibility, 5)
         self.timer = rumps.Timer(self.check_visibility, 2)
         self.check_flg = False
         self.timer.start()
@@ -41,24 +34,42 @@ class MemoApp(rumps.App):
 
     def check_visibility(self, sender):
         """メニューバーアイテムが隠れているかどうかを確認する"""
+
+        # 1回目のチェックは表示が更新される前なので、フラグを立てるのみ
+        if not self.check_flg:
+            self.check_flg = True
+            return
+
         window = self._nsapp.nsstatusitem._window()
 
-        print("timer")
-        print(window.occlusionState())
-        print(NSWindowOcclusionStateVisible)
+        print("visibility check start")
+        print("window.occlusionState ", window.occlusionState())
+        print("NSWindowOcclusionStateVisible ", NSWindowOcclusionStateVisible)
+        # window.occlusionState()は表示ステータス
+        # 表示されている場合は8194、隠れている場合は8192
+        # フルスクリーンの場合も8192になる
+
+        # NSWindowOcclusionStateVisibleはメニューバーが表示されているかどうか
+        # 今の所ずっと2これは謎
+        # https://developer.apple.com/library/archive/documentation/Performance/Conceptual/power_efficiency_guidelines_osx/WorkWhenVisible.html
+        # これみるか、、
+
         if window.occlusionState() & NSWindowOcclusionStateVisible:
             print("メニューバーは表示されています")
-        else:
-            print("メニューバーは隠れています")
-            # 必要に応じてタイトルを短縮するなどの処理
-            self.title = ""  # タイトルを短縮
-
-        # 2回チェックしたらタイマーを止める
-        if self.check_flg == True:
+            # チェック終了
             self.timer.stop()
             self.check_flg = False
         else:
-            self.check_flg = True
+            print("メニューバーは隠れています")
+            if self.title == "":
+                # すでにタイトルが空の場合は何もしないでチェック終了
+                self.timer.stop()
+                self.check_flg = False
+            else:
+                self.title = ""  # タイトルを短縮
+                print("タイトルを短縮しました")
+                # もう一度チェック
+                return
 
     @rumps.clicked("Title")
     def title_edit(self, _):
