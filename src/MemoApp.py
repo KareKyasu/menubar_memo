@@ -34,24 +34,42 @@ class MemoApp(rumps.App):
 
     def check_visibility(self, sender):
         """メニューバーアイテムが隠れているかどうかを確認する"""
+
+        # 1回目のチェックは表示が更新される前なので、フラグを立てるのみ
+        if not self.check_flg:
+            self.check_flg = True
+            return
+
         window = self._nsapp.nsstatusitem._window()
 
-        print("timer")
-        print(window.occlusionState())
-        print(NSWindowOcclusionStateVisible)
+        print("visibility check start")
+        print("window.occlusionState ", window.occlusionState())
+        print("NSWindowOcclusionStateVisible ", NSWindowOcclusionStateVisible)
+        # window.occlusionState()は表示ステータス
+        # 表示されている場合は8194、隠れている場合は8192
+        # フルスクリーンの場合も8192になる
+
+        # NSWindowOcclusionStateVisibleはメニューバーが表示されているかどうか
+        # 今の所ずっと2これは謎
+        # https://developer.apple.com/library/archive/documentation/Performance/Conceptual/power_efficiency_guidelines_osx/WorkWhenVisible.html
+        # これみるか、、
+
         if window.occlusionState() & NSWindowOcclusionStateVisible:
             print("メニューバーは表示されています")
-        else:
-            print("メニューバーは隠れています")
-            self.title = ""  # タイトルを短縮
-
-        # 1回目のチェックは表示が更新される前なので、
-        # 2回チェックしたらタイマーを止める
-        if self.check_flg:
+            # チェック終了
             self.timer.stop()
             self.check_flg = False
         else:
-            self.check_flg = True
+            print("メニューバーは隠れています")
+            if self.title == "":
+                # すでにタイトルが空の場合は何もしないでチェック終了
+                self.timer.stop()
+                self.check_flg = False
+            else:
+                self.title = ""  # タイトルを短縮
+                print("タイトルを短縮しました")
+                # もう一度チェック
+                return
 
     @rumps.clicked("Title")
     def title_edit(self, _):
