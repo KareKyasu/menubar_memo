@@ -1,8 +1,5 @@
-import re
-
 import rumps
 from Cocoa import NSWindowOcclusionStateVisible
-from PyObjCTools import AppHelper
 
 from cache import load_memo, save_memo
 
@@ -30,7 +27,6 @@ class MemoApp(rumps.App):
     def __init__(self, icon_path):
         super(MemoApp, self).__init__("Memo App")
 
-        # self.timer = rumps.Timer(self.check_visibility, 5)
         self.timer = rumps.Timer(self.check_visibility, 2)
         self.check_flg = False
         self.timer.start()
@@ -50,9 +46,9 @@ class MemoApp(rumps.App):
             print("メニューバーは表示されています")
         else:
             print("メニューバーは隠れています")
-            # 必要に応じてタイトルを短縮するなどの処理
             self.title = ""  # タイトルを短縮
 
+        # 1回目のチェックは表示が更新される前なので、
         # 2回チェックしたらタイマーを止める
         if self.check_flg == True:
             self.timer.stop()
